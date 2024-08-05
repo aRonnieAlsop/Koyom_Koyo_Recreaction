@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node dist/src/index.js",
-    "build": "tsc",
-    "dev": "ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

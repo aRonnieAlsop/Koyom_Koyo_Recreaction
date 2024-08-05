@@ -1,6 +1,6 @@
-import express from 'express';
-import { Sequelize, DataTypes } from 'sequelize';
-import dotenv from 'dotenv';
+const express = require('express');
+const { Sequelize, DataTypes } = require('sequelize');
+const dotenv = require('dotenv');
 
 dotenv.config()
 
@@ -51,7 +51,7 @@ app.post('/users', async (req, res) => {
 });
 
 // Route to get all users
-app.get('users', async (req, res) => {
+app.get('/users', async (req, res) => {
     try {
         const users = await User.findAll();
         res.json(users);
