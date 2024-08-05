@@ -1,6 +1,8 @@
-const express = require('express');
-const { Sequelize, DataTypes } = require('sequelize');
-require('dotenv').config();
+import express from 'express';
+import { Sequelize, DataTypes } from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 const app = express();
 app.use(express.json());
