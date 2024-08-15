@@ -6,8 +6,11 @@ const Header = () => {
     return (
         <header>
             <NavBar />
-            <h1>KOYOM KOYO</h1>
-            <h2>Parks & Recreation</h2>
+            <div class="header-container">
+             <h1>KOYOM KOYO</h1>
+            <h2>Parks & Recreation</h2>   
+            </div>
+            
         </header>
     );
 };
