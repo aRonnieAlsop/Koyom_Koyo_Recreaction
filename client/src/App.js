@@ -1,22 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import NavBar from './components/NavBar';
 import Home from './components/Home';
-import Users from './components/Users';
 import CreateUser from './components/CreateUser';
+import Users from './components/Users';
+import Header from './components/Header/Header';
 
-const App = () => {
-  return (
-    <Router>
+function App() {
+    return (
+      <Router>
       <div>
-        <NavBar />
-        <Switch>
-          <Route path="/users" component={Users} />
-          <Route path="/create-user" component={CreateUser} />        
-        </Switch>
+          <Header />
+          <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/create-user" component={CreateUser} />
+              <Route path="/users" component={Users} />
+          </Switch>
       </div>
-    </Router>
-  );
-};
+  </Router>
+    );
+}
 
 export default App;
+

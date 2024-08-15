@@ -1,0 +1,39 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    color: #333;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-right {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar-right a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .navbar-right a:hover {
+    text-decoration: underline;
+  }
+  
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .social-icon:hover {
+    opacity: 0.7;
+  }
+  
