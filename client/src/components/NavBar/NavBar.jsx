@@ -1,25 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NavBar.css'; // Update this with your own styles
+import './NavBar.css'; 
 
-function NavBar() {
-  return (
-    <nav className="navbar">
-      <div className="navbar-left">
+const NavBar = () => {
+    return (
+      <nav className="navbar">
+        <div className="navbar-left">
         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-          <img src="/path-to-facebook-icon.png" alt="Facebook" className="social-icon" />
+            <i className="fab fa-facebook-square"></i>
         </a>
         <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-          <img src="/path-to-instagram-icon.png" alt="Instagram" className="social-icon" />
+            <i className="fab fa-instagram"></i>
         </a>
-      </div>
-      <div className="navbar-right">
-        <Link to="/">Home</Link>
-        <Link to="/users">Users</Link>
-        <Link to="/createuser">Create User</Link>
-      </div>
-    </nav>
-  );
-}
-
-export default NavBar;
+        </div>
+        <div className="navbar-right">
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    );
+  };
+  
+  export default NavBar;

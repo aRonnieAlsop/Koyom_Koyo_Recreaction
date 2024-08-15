@@ -8,6 +8,7 @@
   }
   
   .navbar-left {
+    color: #333;
     display: flex;
     align-items: center;
   }
