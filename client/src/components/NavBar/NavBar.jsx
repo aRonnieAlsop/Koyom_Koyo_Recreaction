@@ -16,10 +16,15 @@ const NavBar = () => {
           </a>
         </div>
         <div className="navbar-right">
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-        </div>
+          <div className="menu-container">
+            <span className="menu-icon">≣</span>
+            <div className="menu">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            </div>
+          </div>
+          </div>
       </nav>
     );
   };

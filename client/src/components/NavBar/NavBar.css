@@ -16,9 +16,37 @@
   
   .navbar-right {
     display: flex;
+    align-items: center;
     gap: 20px;
   }
+
+  .menu-icon {
+    display: none;
+    font-size: 5vw;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: flex;
+    gap: 20px;
+  }
+
+  .menu-container {
+    position: relative;
+  }
   
+  .menu-container:hover .menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #333;
+    padding: 10px;
+    z-index: 1000;
+  }
+
   .navbar-right a {
     color: #333;
     text-decoration: none;
@@ -38,4 +66,36 @@
   .social-icon:hover {
     opacity: 0.7;
   }
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .navbar-right {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .menu {
+      display: none; /* Hide the regular menu */
+  }
+
+  .menu-icon {
+      display: block; /* Show the ≣ icon */
+  }
+
+  /* Apply hover dropdown only when the ≣ icon is visible */
+  .menu-container:hover .menu {
+      display: flex;
+  }
+}
+
+/* Full screen view */
+@media (min-width: 769px) {
+  .menu {
+      display: flex; /* Show the regular menu */
+  }
+
+  .menu-container:hover .menu {
+      display: none; /* Disable hover dropdown on larger screens */
+  }
+}
   
