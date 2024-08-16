@@ -6,7 +6,7 @@
 .home-image {
     position: absolute;
     left: 8vw; /* Distance from the left edge */
-    top: 125%; /* Center vertically in relation to the container */
+    top: 120%; /* Center vertically in relation to the container */
     transform: translateY(-50%); /* Center the image vertically */
     width: 45vw; /* Adjust size as a percentage of viewport width */
     height: auto; /* Maintain aspect ratio */
