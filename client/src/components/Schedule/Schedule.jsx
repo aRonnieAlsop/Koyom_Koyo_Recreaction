@@ -20,6 +20,7 @@ const events = [
 ];
 
 const Schedule = () => {
+    console.log("Schedule component is rendering");
     return (
         <div className="schedule-container">
             <h2>Upcoming Events</h2>
