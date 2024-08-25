@@ -5,17 +5,17 @@ import Users from './components/Users';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
+import Schedule from './components/Schedule/Schedule.jsx';
 
 function App({ location }) {
     return (
         <div>
-            {/* NavBar is always rendered */}
             <NavBar />
-            {/* Only render the Header on the Home page */}
             {location.pathname === '/' && <Header />}
             <div>
                 <Switch>
                     <Route path="/" exact component={Home} />
+                    <Route path="/schedule" element={<Schedule />} />
                     <Route path="/create-user" component={CreateUser} />
                     <Route path="/users" component={Users} />
                 </Switch>

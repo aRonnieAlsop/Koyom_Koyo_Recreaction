@@ -20,6 +20,7 @@ const NavBar = () => {
             <span className="menu-icon">≣</span>
             <div className="menu">
             <a href="/">Home</a>
+            <a href="/schedule">Schedule</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
             </div>
