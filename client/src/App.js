@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreateUser from './components/CreateUser';
 import Users from './components/Users';
 import Header from './components/Header/Header';
@@ -7,32 +7,31 @@ import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 
-function App({ location }) {
+function App() {
     return (
         <div>
             <NavBar />
-            {location.pathname === '/' && <Header />}
+            {window.location.pathname === '/' && <Header />}
             <div>
-                <Switch>
-                    <Route path="/" exact component={Home} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
                     <Route path="/schedule" element={<Schedule />} />
-                    <Route path="/create-user" component={CreateUser} />
-                    <Route path="/users" component={Users} />
-                </Switch>
+                    <Route path="/create-user" element={<CreateUser />} />
+                    <Route path="/users" element={<Users />} />
+                </Routes>
             </div>
         </div>
     );
 }
 
-const AppWithRouter = withRouter(App);
-
 export default function AppWrapper() {
     return (
         <Router>
-            <AppWithRouter />
+            <App />
         </Router>
     );
 }
+
 
 
 
