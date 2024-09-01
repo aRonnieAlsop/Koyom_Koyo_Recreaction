@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 
-const Scheduler = () => {
+const Scheduler = ({ addEvent }) => {
     const [title, setTitle] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Logic to add the event to the calendar
+        
+        const newEvent = {
+            title, 
+            start: new Date(start),
+            end: new Date(end),
+        };
 
-        console.log('New Event:', { title, start, end });
+        addEvent(newEvent);
+
+        console.log('New Event:', newEvent );
+
+        setTitle('');
+        setStart('');
+        setEnd('');
     };
 
     return (
