@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home.jsx';
@@ -6,15 +6,22 @@ import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 import Scheduler from './components/Scheduler/Scheduler.jsx';
 
-
 function App() {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
-     const addEvent = (event) => {
+    // Load events from localStorage when the component mounts
+    useEffect(() => {
+        const storedEvents = localStorage.getItem('events');
+        if (storedEvents) {
+            setEvents(JSON.parse(storedEvents));
+        }
+    }, []);
+
+    const addEvent = (event) => {
         setEvents((prevEvents) => {
             const updatedEvents = [...prevEvents, event];
-            console.log("Events after adding:", updatedEvents);
+            localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
     };
@@ -22,7 +29,7 @@ function App() {
     const deleteEvent = (eventToDelete) => {
         setEvents((prevEvents) => {
             const updatedEvents = prevEvents.filter(event => event !== eventToDelete);
-            console.log("Events after deleting:", updatedEvents);
+            localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
     };
@@ -30,12 +37,10 @@ function App() {
     const editEvent = (updatedEvent) => {
         setEvents((prevEvents) => {
             const updatedEvents = prevEvents.map(event => event === selectedEvent ? updatedEvent : event);
-            console.log("Events after editing:", updatedEvents);
+            localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
     };
-    
-
 
     return (
         <div>

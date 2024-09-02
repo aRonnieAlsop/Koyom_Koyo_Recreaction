@@ -17,15 +17,19 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedEvent) {
+            // edit existing event
             editEvent({ ...selectedEvent, title, start: new Date(start), end: new Date(end) });
         } else {
+            // add new event
             const newEvent = { title, start: new Date(start), end: new Date(end) };
             addEvent(newEvent);
         }
+        // Reset form fields
         setTitle('');
         setStart('');
         setEnd('');
         setSelectedEvent(null);
+        // navigate('/schedule');
     };
 
     const handleEdit = (event) => {
