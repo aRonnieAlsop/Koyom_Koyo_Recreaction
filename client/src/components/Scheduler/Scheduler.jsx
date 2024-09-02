@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Scheduler = ({ addEvent }) => {
     const [title, setTitle] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,6 +23,8 @@ const Scheduler = ({ addEvent }) => {
         setTitle('');
         setStart('');
         setEnd('');
+
+        navigate('/schedule');
     };
 
     return (

@@ -7,6 +7,8 @@ import './Schedule.css';
 const localizer = momentLocalizer(moment);
 
 const Schedule = ({ events }) => {
+    console.log("Events received in Schedule:", events);
+    
     return (
         <div className="schedule-container">
             <h2>Upcoming Events</h2>
