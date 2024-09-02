@@ -6,21 +6,7 @@ import './Schedule.css';
 
 const localizer = momentLocalizer(moment);
 
-const events = [
-    {
-        title: 'Community Yoga',
-        start: new Date(2024, 7, 26, 9, 0),
-        end: new Date(2024, 7, 26, 11, 0),
-      },
-      {
-        title: 'Outdoor Movie Night',
-        start: new Date(2024, 7, 28, 20, 0),
-        end: new Date(2024, 7, 28, 22, 0),
-      },
-];
-
-const Schedule = () => {
-    console.log("Schedule component is rendering");
+const Schedule = ({ events }) => {
     return (
         <div className="schedule-container">
             <h2>Upcoming Events</h2>

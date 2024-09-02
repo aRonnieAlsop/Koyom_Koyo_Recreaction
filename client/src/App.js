@@ -7,6 +7,7 @@ import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 
+
 function App() {
     return (
         <div>
@@ -17,7 +18,6 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/schedule" element={<Schedule />} />
                     <Route path="/create-user" element={<CreateUser />} />
-                    <Route path="/users" element={<Users />} />
                 </Routes>
             </div>
         </div>

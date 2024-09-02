@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Schedule from './Schedule/Schedule';
+import Scheduler from './Scheduler';
 import Schedule from './Schedule/Schedule';
 
 const EventManager = () => {
