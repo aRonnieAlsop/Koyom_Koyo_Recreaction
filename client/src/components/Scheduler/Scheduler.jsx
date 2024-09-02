@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 
 const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
-    console.log('Scheduler rendered');
     const [title, setTitle] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [search, setSearch] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
-    // const navigate = useNavigate();
 
     const filteredEvents = events.filter(event => 
         event.title.toLowerCase().includes(search.toLowerCase())
@@ -29,7 +26,6 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         setStart('');
         setEnd('');
         setSelectedEvent(null);
-        // navigate('/schedule');
     };
 
     const handleEdit = (event) => {
@@ -43,6 +39,17 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         if (selectedEvent) {
             deleteEvent(selectedEvent);
             setSelectedEvent(null);
+            setTitle('');
+            setStart('');
+            setEnd('');
+            setSearch('');
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Tab' && filteredEvents.length > 0) {
+            e.preventDefault();
+            handleEdit(filteredEvents[0]);  // Auto-complete with the first filtered event
         }
     };
 
@@ -56,6 +63,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                         <label>Event Title:</label>
                         <input 
