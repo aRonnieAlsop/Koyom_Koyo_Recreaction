@@ -8,24 +8,35 @@ import Scheduler from './components/Scheduler/Scheduler.jsx';
 
 
 function App() {
-    const [events, setEvents] = useState([
-        {
-            title: 'Community Yoga',
-            start: new Date(2024, 7, 26, 9, 0),
-            end: new Date(2024, 7, 26, 11, 0),
-        },
-        {
-            title: 'Outdoor Movie Night',
-            start: new Date(2024, 7, 28, 20, 0),
-            end: new Date(2024, 7, 28, 22, 0),
-        },
-    ]);
+    const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const addEvent = (newEvent) => {
-        setEvents((prevEvents) => [...prevEvents, newEvent]);
-        console.log("New event added:", newEvent);
-        console.log("Updated events array:", [...events, newEvent]);
+     const addEvent = (event) => {
+        setEvents((prevEvents) => {
+            const updatedEvents = [...prevEvents, event];
+            console.log("Events after adding:", updatedEvents);
+            return updatedEvents;
+        });
     };
+
+    const deleteEvent = (eventToDelete) => {
+        setEvents((prevEvents) => {
+            const updatedEvents = prevEvents.filter(event => event !== eventToDelete);
+            console.log("Events after deleting:", updatedEvents);
+            return updatedEvents;
+        });
+    };
+
+    const editEvent = (updatedEvent) => {
+        setEvents((prevEvents) => {
+            const updatedEvents = prevEvents.map(event => event === selectedEvent ? updatedEvent : event);
+            console.log("Events after editing:", updatedEvents);
+            return updatedEvents;
+        });
+    };
+    
+
+
     return (
         <div>
             <NavBar />
@@ -34,7 +45,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/schedule" element={<Schedule events={events}/>} />
-                    <Route path="/scheduler" element={<Scheduler addEvent={addEvent} />}/>
+                    <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
             </div>
         </div>
