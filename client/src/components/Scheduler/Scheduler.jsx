@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Scheduler.css';
 
 const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const [title, setTitle] = useState('');
@@ -64,9 +65,9 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     };
 
     return (
-        <div>
+        <div className="scheduler-container">
             <h2>Schedule an Event</h2>
-            <form onSubmit={handleSubmit}>
+            <form className="scheduler-form" onSubmit={handleSubmit}>
                 <div>
                     <label>Search Events: </label>
                     <input  

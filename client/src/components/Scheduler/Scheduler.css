@@ -1,0 +1,39 @@
+.scheduler-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+}
+
+.scheduler-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+}
+
+.scheduler-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.scheduler-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.scheduler-form button[type="submit"] {
+    background-color: white;
+    color: black;
+}
+
+.scheduler-form button[type="button"] {
+    background-color: #f44336;
+    color: white;
+}
