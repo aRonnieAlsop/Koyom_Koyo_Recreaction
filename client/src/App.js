@@ -8,7 +8,6 @@ import Scheduler from './components/Scheduler/Scheduler.jsx';
 
 function App() {
     const [events, setEvents] = useState([]);
-    const [selectedEvent, setSelectedEvent] = useState(null);
 
     // Load events from localStorage when the component mounts
     useEffect(() => {
@@ -20,7 +19,7 @@ function App() {
 
     const addEvent = (event) => {
         setEvents((prevEvents) => {
-            const updatedEvents = [...prevEvents, event];
+            const updatedEvents = [...prevEvents, { ...event, id: Date.now() }]; // Add unique ID
             localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
@@ -28,7 +27,7 @@ function App() {
 
     const deleteEvent = (eventToDelete) => {
         setEvents((prevEvents) => {
-            const updatedEvents = prevEvents.filter(event => event !== eventToDelete);
+            const updatedEvents = prevEvents.filter(event => event.id !== eventToDelete.id);
             localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
@@ -36,7 +35,9 @@ function App() {
 
     const editEvent = (updatedEvent) => {
         setEvents((prevEvents) => {
-            const updatedEvents = prevEvents.map(event => event === selectedEvent ? updatedEvent : event);
+            const updatedEvents = prevEvents.map(event =>
+                event.id === updatedEvent.id ? updatedEvent : event
+            );
             localStorage.setItem('events', JSON.stringify(updatedEvents)); // Save to local storage
             return updatedEvents;
         });
@@ -49,7 +50,7 @@ function App() {
             <div>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/schedule" element={<Schedule events={events}/>} />
+                    <Route path="/schedule" element={<Schedule events={events} />} />
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
             </div>

@@ -7,20 +7,22 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const [search, setSearch] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const filteredEvents = events.filter(event => 
+    const filteredEvents = events.filter(event =>
         event.title.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const newEvent = { title, start: new Date(start), end: new Date(end) };
+
         if (selectedEvent) {
-            // edit existing event
-            editEvent({ ...selectedEvent, title, start: new Date(start), end: new Date(end) });
+            // Edit existing event
+            editEvent({ ...selectedEvent, title, start: newEvent.start, end: newEvent.end });
         } else {
-            // add new event
-            const newEvent = { title, start: new Date(start), end: new Date(end) };
+            // Add new event
             addEvent(newEvent);
         }
+
         // Reset form fields
         setTitle('');
         setStart('');
@@ -67,19 +69,21 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Search Events: </label>
-                        <input  
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                        />
-                        <label>Event Title:</label>
-                        <input 
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
+                    <input  
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
+                <div>
+                    <label>Event Title:</label>
+                    <input 
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
                 </div>
                 <div>
                     <label>Start Date & Time:</label>
@@ -105,9 +109,9 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
             <h3>Search Results</h3>
             <ul>
                 {filteredEvents.map((event, index) => (
-                    <li key={index}>
+                    <li key={event.id}>
                         <button onClick={() => handleEdit(event)}>
-                            {event.title} ({event.start.toLocaleString()} - {event.end.toLocaleString()})
+                            {event.title} ({new Date(event.start).toLocaleString()} - {new Date(event.end).toLocaleString()})
                         </button>
                     </li>
                 ))}
