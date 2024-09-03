@@ -29,10 +29,18 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     };
 
     const handleEdit = (event) => {
+        if (!event.start || !event.end) {
+            console.error("Event data is incomplete:", event);
+            return;  // Exit if data is incomplete
+        }
+        
+        const eventStart = new Date(event.start);
+        const eventEnd = new Date(event.end);
+
         setSelectedEvent(event);
         setTitle(event.title);
-        setStart(event.start.toISOString().slice(0, 16));
-        setEnd(event.end.toISOString().slice(0, 16));
+        setStart(eventStart.toISOString().slice(0, 16));
+        setEnd(eventEnd.toISOString().slice(0, 16));
     };
 
     const handleDelete = () => {
