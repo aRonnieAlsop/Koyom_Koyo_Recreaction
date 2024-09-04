@@ -37,3 +37,26 @@
     background-color: #f44336;
     color: white;
 }
+
+.suggestions-dropdown {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background: white;
+    width: calc(100% - 20px); /* Adjust based on form padding */
+    z-index: 1000;
+}
+
+.suggestions-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-dropdown li:hover {
+    background-color: #f0f0f0;
+}
