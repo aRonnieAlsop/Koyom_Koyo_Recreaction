@@ -1,26 +1,70 @@
-import React, { useState } from 'react';
-import './Scheduler.css';
+import React, { useState, useEffect } from 'react';
+import './Scheduler.css'; // Import the CSS file
 
 const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const [title, setTitle] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [search, setSearch] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
+
+    useEffect(() => {
+        if (selectedEvent) {
+            setTitle(selectedEvent.title);
+            setStart(formatDate(selectedEvent.start));
+            setEnd(formatDate(selectedEvent.end));
+        }
+    }, [selectedEvent]);
 
     const filteredEvents = events.filter(event =>
         event.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearch(value);
+
+        if (value) {
+            const filteredSuggestions = filteredEvents.filter(event =>
+                event.title.toLowerCase().startsWith(value.toLowerCase())
+            );
+            setSuggestions(filteredSuggestions);
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleSelectSuggestion = (event) => {
+        setSearch(event.title);
+        setTitle(event.title);
+        setStart(formatDate(event.start));
+        setEnd(formatDate(event.end));
+        setSelectedEvent(event);
+        setSuggestions([]);
+    };
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toISOString().slice(0, 16); // Format to YYYY-MM-DDTHH:MM
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newEvent = { title, start: new Date(start), end: new Date(end) };
+        const newEvent = { title, start: new Date(start).toISOString(), end: new Date(end).toISOString() };
+
+        console.log("Submitting Event:", {
+            title,
+            start: newEvent.start,
+            end: newEvent.end,
+            selectedEvent
+        });
 
         if (selectedEvent) {
-            // Edit existing event
+            // Update the existing event
             editEvent({ ...selectedEvent, title, start: newEvent.start, end: newEvent.end });
         } else {
-            // Add new event
+            // Add a new event
             addEvent(newEvent);
         }
 
@@ -29,25 +73,17 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         setStart('');
         setEnd('');
         setSelectedEvent(null);
+        setSearch('');
     };
 
     const handleEdit = (event) => {
-        if (!event.start || !event.end) {
-            console.error("Event data is incomplete:", event);
-            return;  // Exit if data is incomplete
-        }
-        
-        const eventStart = new Date(event.start);
-        const eventEnd = new Date(event.end);
-
+        console.log("Editing Event:", event);
         setSelectedEvent(event);
-        setTitle(event.title);
-        setStart(eventStart.toISOString().slice(0, 16));
-        setEnd(eventEnd.toISOString().slice(0, 16));
     };
 
     const handleDelete = () => {
         if (selectedEvent) {
+            console.log("Deleting Event:", selectedEvent);
             deleteEvent(selectedEvent);
             setSelectedEvent(null);
             setTitle('');
@@ -58,9 +94,9 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Tab' && filteredEvents.length > 0) {
+        if (e.key === 'Tab' && suggestions.length > 0) {
             e.preventDefault();
-            handleEdit(filteredEvents[0]);  // Auto-complete with the first filtered event
+            handleSelectSuggestion(suggestions[0]); // Auto-complete with the first suggestion
         }
     };
 
@@ -73,10 +109,20 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                     <input  
                         type="text"
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
+                        placeholder="Type to search..."
                     />
                 </div>
+                {suggestions.length > 0 && (
+                    <ul className="suggestions-dropdown">
+                        {suggestions.map((event) => (
+                            <li key={event.id} onClick={() => handleSelectSuggestion(event)}>
+                                {event.title}
+                            </li>
+                        ))}
+                    </ul>
+                )}
                 <div>
                     <label>Event Title:</label>
                     <input 
@@ -107,16 +153,6 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                 <button type="submit">{selectedEvent ? 'Update Event' : 'Add Event'}</button>
                 {selectedEvent && <button type="button" onClick={handleDelete}>Delete Event</button>}
             </form>
-            <h3>Search Results</h3>
-            <ul>
-                {filteredEvents.map((event, index) => (
-                    <li key={event.id}>
-                        <button onClick={() => handleEdit(event)}>
-                            {event.title} ({new Date(event.start).toLocaleString()} - {new Date(event.end).toLocaleString()})
-                        </button>
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };
