@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Scheduler.css'; // Import the CSS file
+import './Scheduler.css'; 
 
 const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const [title, setTitle] = useState('');
@@ -49,9 +49,21 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         return d.toISOString().slice(0, 16); // Format to YYYY-MM-DDTHH:MM
     };
 
+    const convertToUTC = (localDateTime) => {
+        return new Date(localDateTime).toISOString();
+    };
+
+    const convertToLocalDateTime = (utcDateTime) => {
+        const localDate = new Date(utcDateTime);
+        return localDate.toISOString().slice(0, 16);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newEvent = { title, start: new Date(start).toISOString(), end: new Date(end).toISOString() };
+        const newEvent = { title, 
+            start: convertToUTC(start), 
+            end: convertToUTC(end)
+         };
 
         console.log("Submitting Event:", {
             title,
@@ -62,7 +74,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
 
         if (selectedEvent) {
             // Update the existing event
-            editEvent({ ...selectedEvent, title, start: newEvent.start, end: newEvent.end });
+            editEvent({ ...selectedEvent, ...newEvent });
         } else {
             // Add a new event
             addEvent(newEvent);
@@ -77,8 +89,15 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     };
 
     const handleEdit = (event) => {
-        console.log("Editing Event:", event);
+        if (!event.start || !event.end) {
+            console.error("Event data is incomplete:", event);
+            return;
+        }
+    
         setSelectedEvent(event);
+        setTitle(event.title);
+        setStart(convertToLocalDateTime(event.start));
+        setEnd(convertToLocalDateTime(event.end));
     };
 
     const handleDelete = () => {
