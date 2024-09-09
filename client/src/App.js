@@ -5,6 +5,8 @@ import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 import Scheduler from './components/Scheduler/Scheduler.jsx';
+import Footer from './components/Footer/Footer.jsx';
+import './App.css';
 
 function App() {
     const [events, setEvents] = useState([]);
@@ -44,16 +46,17 @@ function App() {
     };
 
     return (
-        <div>
+        <div className="app-container">
             <NavBar />
             {window.location.pathname === '/' && <Header />}
-            <div>
+            <main className="main-content">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/schedule" element={<Schedule events={events} />} />
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
-            </div>
+            </main>
+            <Footer />
         </div>
     );
 }
