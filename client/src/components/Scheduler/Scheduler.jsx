@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Scheduler.css'; 
+import './Scheduler.css';
 
 const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
     const [title, setTitle] = useState('');
@@ -44,26 +44,33 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         setSuggestions([]);
     };
 
+    // Formats date to YYYY-MM-DDTHH:MM for datetime-local input
     const formatDate = (date) => {
         const d = new Date(date);
-        return d.toISOString().slice(0, 16); // Format to YYYY-MM-DDTHH:MM
+        return d.toISOString().slice(0, 16);
     };
 
+    // Converts local datetime to UTC by creating a new Date object and adjusting to UTC
     const convertToUTC = (localDateTime) => {
-        return new Date(localDateTime).toISOString();
+        const localDate = new Date(localDateTime);
+        const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+        return utcDate.toISOString();
     };
 
+    // Converts UTC to local datetime format YYYY-MM-DDTHH:MM
     const convertToLocalDateTime = (utcDateTime) => {
-        const localDate = new Date(utcDateTime);
+        const utcDate = new Date(utcDateTime);
+        const localDate = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
         return localDate.toISOString().slice(0, 16);
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newEvent = { title, 
-            start: convertToUTC(start), 
-            end: convertToUTC(end)
-         };
+        const newEvent = {
+            title,
+            start: convertToUTC(start), // Convert local to UTC
+            end: convertToUTC(end) // Convert local to UTC
+        };
 
         console.log("Submitting Event:", {
             title,
@@ -73,10 +80,8 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
         });
 
         if (selectedEvent) {
-            // Update the existing event
             editEvent({ ...selectedEvent, ...newEvent });
         } else {
-            // Add a new event
             addEvent(newEvent);
         }
 
@@ -93,7 +98,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
             console.error("Event data is incomplete:", event);
             return;
         }
-    
+
         setSelectedEvent(event);
         setTitle(event.title);
         setStart(convertToLocalDateTime(event.start));
@@ -125,7 +130,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
             <form className="scheduler-form" onSubmit={handleSubmit}>
                 <div>
                     <label>Search Events: </label>
-                    <input  
+                    <input
                         type="text"
                         value={search}
                         onChange={handleSearchChange}
@@ -144,7 +149,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                 )}
                 <div>
                     <label>Event Title:</label>
-                    <input 
+                    <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
@@ -153,7 +158,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                 </div>
                 <div>
                     <label>Start Date & Time:</label>
-                    <input  
+                    <input
                         type="datetime-local"
                         value={start}
                         onChange={(e) => setStart(e.target.value)}
@@ -162,7 +167,7 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
                 </div>
                 <div>
                     <label>End Date & Time:</label>
-                    <input  
+                    <input
                         type="datetime-local"
                         value={end}
                         onChange={(e) => setEnd(e.target.value)}
