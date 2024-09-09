@@ -1,0 +1,35 @@
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    width: 100vw;
+    position: relative;
+    bottom: 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-left {
+    flex: 1;
+}
+
+.footer-right {
+    flex: 1;
+    text-align: right;
+}
+
+.admin-link {
+    color: white;
+    text-decoration: none;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
