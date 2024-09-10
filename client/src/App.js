@@ -56,7 +56,7 @@ function App() {
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
             </main>
-            <Footer />
+            <Footer className="App-footer"/>
         </div>
     );
 }

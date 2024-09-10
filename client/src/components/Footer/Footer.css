@@ -3,11 +3,11 @@
     color: white;
     padding: 1rem;
     width: 100%;
-    position: fixed; /* Change to fixed positioning */
-    bottom: 0;
-    left: 0;
     text-align: center;
-    z-index: 1000; /* Ensures it stays on top if needed */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 
 .footer-content {
