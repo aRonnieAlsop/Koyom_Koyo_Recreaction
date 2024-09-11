@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
@@ -10,6 +10,7 @@ import './App.css';
 
 function App() {
     const [events, setEvents] = useState([]);
+    const location = useLocation();
 
     // Load events from localStorage when the component mounts
     useEffect(() => {
@@ -56,7 +57,7 @@ function App() {
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
             </main>
-            <Footer className="App-footer"/>
+            {location.pathname !== '/' && <Footer />}
         </div>
     );
 }
