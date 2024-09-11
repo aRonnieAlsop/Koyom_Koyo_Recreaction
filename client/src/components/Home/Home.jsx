@@ -26,7 +26,6 @@ const Home = () => {
         <div className="home-container">
             <img src={images[currentImage]} alt="Park" className="home-image" />
         </div>
-        <div className="footer-spacer"></div>
         </div>
     );
 };
