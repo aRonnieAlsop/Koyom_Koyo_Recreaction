@@ -5,7 +5,6 @@ import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 import Scheduler from './components/Scheduler/Scheduler.jsx';
-import Footer from './components/Footer/Footer.jsx';
 import './App.css';
 
 function App() {
@@ -57,7 +56,6 @@ function App() {
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent} />} />
                 </Routes>
             </main>
-            {location.pathname !== '/' && <Footer />}
         </div>
     );
 }

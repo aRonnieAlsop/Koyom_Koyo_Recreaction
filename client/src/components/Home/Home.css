@@ -1,6 +1,7 @@
 .home-container {
     position: relative;
     padding-top: 10vw;
+    flex: 1;
 }
 
 .home-image {
@@ -11,7 +12,6 @@
     width: 45vw; 
     height: auto; 
 }
-
 
 
 

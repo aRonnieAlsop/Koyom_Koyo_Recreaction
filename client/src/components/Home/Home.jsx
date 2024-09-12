@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import './../Home/Home.css';
 
+
 const images = [
     require('./../../assets/HomeImages/image2.jpg'),
     require('./../../assets/HomeImages/image3.jpg'),
