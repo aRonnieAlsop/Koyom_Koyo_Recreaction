@@ -1,10 +1,14 @@
 import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './NavBar.css'; 
 
 import faceBookIcon from './../../assets/faceBook.png'
 import instagramIcon from './../../assets/instagram.png';
 
 const NavBar = () => {
+
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
     return (
       <nav className="navbar">
         <div className="navbar-left">
@@ -23,7 +27,14 @@ const NavBar = () => {
             <a href="/schedule">Schedule</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
-            <a href="/scheduler">Scheduler</a>
+            {isAuthenticated ? (
+                            <>
+                                <a href="/scheduler">Scheduler</a>
+                                <button onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
+                            </>
+                        ) : (
+                            <button onClick={() => loginWithRedirect()}>Admin Login</button>
+                        )}
             </div>
           </div>
           </div>
