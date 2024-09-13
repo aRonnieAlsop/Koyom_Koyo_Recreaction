@@ -72,13 +72,6 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
             end: convertToUTC(end) // Convert local to UTC
         };
 
-        console.log("Submitting Event:", {
-            title,
-            start: newEvent.start,
-            end: newEvent.end,
-            selectedEvent
-        });
-
         if (selectedEvent) {
             editEvent({ ...selectedEvent, ...newEvent });
         } else {
@@ -107,7 +100,6 @@ const Scheduler = ({ events, addEvent, deleteEvent, editEvent }) => {
 
     const handleDelete = () => {
         if (selectedEvent) {
-            console.log("Deleting Event:", selectedEvent);
             deleteEvent(selectedEvent);
             setSelectedEvent(null);
             setTitle('');
