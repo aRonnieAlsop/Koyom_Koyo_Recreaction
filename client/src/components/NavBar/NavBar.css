@@ -111,11 +111,29 @@
 /* Full screen view */
 @media (min-width: 769px) {
   .menu {
-      display: flex; /* Show the regular menu */
+      display: flex; 
+      gap: 20px;
+  }
+
+  .menu-container {
+    position: static;
   }
 
   .menu-container:hover .menu {
-      display: none; /* Disable hover dropdown on larger screens */
-  }
+      display: flex;
+      flex-direction: row;
+      position: static;
 }
-  
+
+.menu a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+  text-align: center;
+}
+
+.menu a:hover {
+  background-color: #f0f0f0;
+}
+
+}
