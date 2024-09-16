@@ -5,6 +5,7 @@ import Home from './components/Home/Home.jsx';
 import NavBar from './components/NavBar/NavBar';
 import Schedule from './components/Schedule/Schedule.jsx';
 import Scheduler from './components/Scheduler/Scheduler.jsx';
+import Programs from './components/Programs/Programs.jsx';
 import './App.css';
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/schedule" element={<Schedule events={events} />} />
                     <Route path="/scheduler" element={<Scheduler events={events} addEvent={addEvent} deleteEvent={deleteEvent} editEvent={editEvent}  />} />
+                    <Route path="/programs" element={<Programs />} />
                 </Routes>
             </main>
         </div>

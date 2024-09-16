@@ -25,6 +25,7 @@ const NavBar = () => {
             <div className="menu">
             <a href="/">Home</a>
             <a href="/schedule">Schedule</a>
+            <a href="/programs">Programs</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
             {isAuthenticated ? (
