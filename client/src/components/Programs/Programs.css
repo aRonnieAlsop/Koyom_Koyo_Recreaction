@@ -77,3 +77,13 @@
     font-size: 1.5rem;
     cursor: pointer;
   }
+
+  .add-program-button {
+    margin: 20px; /* Add margin to space it from the grid */
+    padding: 10px 15px;
+    background-color: #007bff; /* Change as needed */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

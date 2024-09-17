@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './Programs.css';
 
 import poolImage from './../../assets/ProgramImages/pool_stock_image.jpg';
@@ -24,7 +25,9 @@ const programs = [
 ];
 
 const Programs = () => {
+    const { isAuthenticated } = useAuth0();
     const [selectedProgram, setSelectedProgram] = useState(null);
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     const handleProgramClick = (program) => {
         setSelectedProgram(program);
@@ -32,6 +35,14 @@ const Programs = () => {
 
     const handleClose = () => {
         setSelectedProgram(null);
+    };
+
+    const handleAddProgramClick = () => {
+        setIsFormVisible(true);
+    };
+
+    const handleCloseForm = () => {
+        setIsFormVisible(false);
     };
 
     return (
@@ -55,6 +66,22 @@ const Programs = () => {
                         <button className="close-button" onClick={handleClose}>X</button>
                         <h2>{selectedProgram.title}</h2>
                         <p>{selectedProgram.description}</p>
+                    </div>
+                </div>
+            )}
+             {isAuthenticated && (
+                <button className="add-program-button" onClick={handleAddProgramClick}>
+                    Add Programs
+                </button>
+            )}
+                 {isFormVisible && (
+                <div className="program-form-overlay">
+                    <div className="program-form">
+                        <button className="close-button" onClick={handleCloseForm}>X</button>
+                        <h2>Add New Program</h2>
+                        {/* form fields will go here */}
+                        <form>
+                        </form>
                     </div>
                 </div>
             )}
