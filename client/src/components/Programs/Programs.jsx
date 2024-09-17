@@ -10,9 +10,9 @@ import pickleballImage from './../../assets/ProgramImages/Pickleball_Stock_img.p
 import artImage from './../../assets/ProgramImages/Art_In_The_Park_Stock_Img.jpg';
 import softballMenImage from './../../assets/ProgramImages/Mens_Softball_Stock_Img.jpg';
 import softballWomenImage from './../../assets/ProgramImages/Womens_Softball_stock_img.jpg';
-import roboticsImage from './../../assets/ProgramImages/Robots_Stock_Img.jpg'; // Check if this file has correct extension
+import roboticsImage from './../../assets/ProgramImages/Robots_Stock_Img.jpg';
 
-const programs = [
+const initialPrograms = [
     { id: 1, title: 'Swim Lessons', image: poolImage, description: 'Details about Swim Lessons' },
     { id: 2, title: 'Soccer Camp', image: soccerImage, description: 'Details about Soccer Camp' },
     { id: 3, title: 'Tennis Lessons', image: tennisImage, description: 'Details about Tennis Lessons' },
@@ -26,8 +26,10 @@ const programs = [
 
 const Programs = () => {
     const { isAuthenticated } = useAuth0();
+    const [programs, setPrograms] = useState(initialPrograms);
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [newProgram, setNewProgram] = useState({ title: '', image: '', description: '' });
 
     const handleProgramClick = (program) => {
         setSelectedProgram(program);
@@ -43,6 +45,23 @@ const Programs = () => {
 
     const handleCloseForm = () => {
         setIsFormVisible(false);
+        setNewProgram({ title: '', image: '', description: '' }); // Reset the form
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewProgram((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageChange = (e) => {
+        setNewProgram((prev) => ({ ...prev, image: URL.createObjectURL(e.target.files[0]) }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newId = programs.length + 1; // Simple ID generation
+        setPrograms((prev) => [...prev, { id: newId, ...newProgram }]);
+        handleCloseForm(); // Close the form after submission
     };
 
     return (
@@ -69,18 +88,39 @@ const Programs = () => {
                     </div>
                 </div>
             )}
-             {isAuthenticated && (
+            {isAuthenticated && (
                 <button className="add-program-button" onClick={handleAddProgramClick}>
                     Add Programs
                 </button>
             )}
-                 {isFormVisible && (
+            {isFormVisible && (
                 <div className="program-form-overlay">
                     <div className="program-form">
                         <button className="close-button" onClick={handleCloseForm}>X</button>
                         <h2>Add New Program</h2>
-                        {/* form fields will go here */}
-                        <form>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Program Title"
+                                value={newProgram.title}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                placeholder="Program Description"
+                                value={newProgram.description}
+                                onChange={handleInputChange}
+                                required
+                            ></textarea>
+                            <button type="submit">Add Program</button>
                         </form>
                     </div>
                 </div>
