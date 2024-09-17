@@ -11,8 +11,8 @@
 .programs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-    padding: 0 20px;
+    gap: 20px;
+    padding: 0 80px;
 }
 
 .program-card {
@@ -21,6 +21,7 @@
     overflow: hidden;
     border-radius: 8px;
     transition: transform 0.3 ease;
+    height: 250px;
 }
 
 .program-card:hover {
@@ -29,8 +30,10 @@
 
 .program-image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
+    transition: transform 0.3s ease;
 }
 
 .program-title {
