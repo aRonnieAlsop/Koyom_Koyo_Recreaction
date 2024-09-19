@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import './Programs.css';
 
@@ -26,10 +26,19 @@ const initialPrograms = [
 
 const Programs = () => {
     const { isAuthenticated } = useAuth0();
-    const [programs, setPrograms] = useState(initialPrograms);
+    const [programs, setPrograms] = useState([]);
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [newProgram, setNewProgram] = useState({ title: '', image: '', description: '' });
+
+    useEffect(() => {
+        const storedPrograms = localStorage.getItem('programs');
+        if (storedPrograms) {
+            setPrograms(JSON.parse(storedPrograms));
+        } else {
+            setPrograms(initialPrograms); // Fall back if nothing is in storage
+        }
+    }, []);
 
     const handleProgramClick = (program) => {
         setSelectedProgram(program);
@@ -60,7 +69,9 @@ const Programs = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const newId = programs.length + 1; // Simple ID generation
-        setPrograms((prev) => [...prev, { id: newId, ...newProgram }]);
+        const updatedPrograms = [...programs, { id: newProgram }]
+        setPrograms(updatedPrograms);
+        localStorage.setItem('programs', JSON.stringify(updatedPrograms)); //saving to local storage for mock version of site
         handleCloseForm(); // Close the form after submission
     };
 
