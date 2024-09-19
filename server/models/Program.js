@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-const sequelize = require('.../database');
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../database');
 
 class Program extends Model {}
 

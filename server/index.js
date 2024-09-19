@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 // Sequlize set up
-const sequelize = new Sequelize({
+sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database.sqlite'
 });
