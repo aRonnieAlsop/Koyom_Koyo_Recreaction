@@ -19,6 +19,7 @@ Program.init({
 }, {
     sequelize,
     modelName: 'Program',
+    tableName: 'Programs',
 });
 
 module.exports = Program;

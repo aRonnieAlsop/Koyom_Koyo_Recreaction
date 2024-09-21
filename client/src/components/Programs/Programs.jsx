@@ -66,14 +66,14 @@ const Programs = () => {
         setNewProgram((prev) => ({ ...prev, image: URL.createObjectURL(e.target.files[0]) }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newId = programs.length + 1; // Simple ID generation
-        const updatedPrograms = [...programs, { id: newProgram }]
-        setPrograms(updatedPrograms);
-        localStorage.setItem('programs', JSON.stringify(updatedPrograms)); //saving to local storage for mock version of site
-        handleCloseForm(); // Close the form after submission
-    };
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const newId = programs.length > 0 ? programs[programs.length - 1].id + 1 : 1; // Unique ID generation
+    const updatedPrograms = [...programs, { id: newId, ...newProgram }]; // Correctly spread newProgram
+    setPrograms(updatedPrograms);
+    localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Saving to local storage
+    handleCloseForm(); // Close the form after submission
+};
 
     return (
         <div className="programs-page">
