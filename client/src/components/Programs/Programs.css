@@ -88,6 +88,22 @@
     cursor: pointer;
 }
 
+.delete-button {
+    position: absolute;
+    top: 5px; /* Adjust as needed */
+    right: 5px; /* Adjust as needed */
+    background: red; /* Change to your desired color */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.delete-button:hover {
+    background: darkred; /* Darker color on hover */
+}
+
 .confirm-delete-overlay {
     position: fixed;
     top: 0;

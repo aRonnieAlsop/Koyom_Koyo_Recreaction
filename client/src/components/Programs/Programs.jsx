@@ -77,20 +77,21 @@ const Programs = () => {
         handleCloseForm(); // Close the form after submission
     };
 
+
     const handleDeleteClick = (program) => {
         setDeletingProgram(program);
         setIsConfirmDeleteVisible(true);
     };
 
     const handleConfirmDelete = async () => {
-        // API call to delete the program from the server
+        // Call your API to delete the program from the server
         try {
             await fetch(`/api/programs/${deletingProgram.id}`, {
                 method: 'DELETE',
-                });
+            });
             const updatedPrograms = programs.filter(prog => prog.id !== deletingProgram.id);
             setPrograms(updatedPrograms);
-            localStorage.setItem('programs', JSON.stringify(updatedPrograms)); //update local storage
+            localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
         } catch (error) {
             console.error('Error deleting program:', error);
         } finally {
@@ -102,7 +103,7 @@ const Programs = () => {
     const handleCancelDelete = () => {
         setIsConfirmDeleteVisible(false);
         setDeletingProgram(null);
-    }
+    };
 
     return (
         <div className="programs-page">
@@ -117,7 +118,12 @@ const Programs = () => {
                         <img src={program.image} alt={program.title} className="program-image" />
                         <div className="program-title">{program.title}</div>
                         {isAuthenticated && (
-                            <button className="delete-button" onClick={() => handleDeleteClick(program)}>X</button>
+                            <button 
+                                className="delete-button" 
+                                onClick={() => handleDeleteClick(program)}
+                            >
+                                X
+                            </button>
                         )}
                     </div>
                 ))}
@@ -168,7 +174,7 @@ const Programs = () => {
                     </div>
                 </div>
             )}
-             {isConfirmDeleteVisible && (
+            {isConfirmDeleteVisible && (
                 <div className="confirm-delete-overlay">
                     <div className="confirm-delete">
                         <h2>Are you sure you want to delete {deletingProgram.title}?</h2>
