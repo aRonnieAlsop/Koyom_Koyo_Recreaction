@@ -44,5 +44,17 @@ app.post('/api/programs', async (req, res) => {
     }
 });
 
+// Route to delete a program
+app.delete('/api/programs/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Program.destroy({ where: { id } });
+        res.status(204).send(); //no content to send back
+    } catch (err) {
+        console.error('Error deleting program:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

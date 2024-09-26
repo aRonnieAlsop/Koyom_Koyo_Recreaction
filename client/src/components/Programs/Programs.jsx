@@ -30,6 +30,8 @@ const Programs = () => {
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [newProgram, setNewProgram] = useState({ title: '', image: '', description: '' });
+    const [deletingProgram, setDeletingProgram] = useState(null);
+    const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
 
     useEffect(() => {
         const storedPrograms = localStorage.getItem('programs');
@@ -66,14 +68,41 @@ const Programs = () => {
         setNewProgram((prev) => ({ ...prev, image: URL.createObjectURL(e.target.files[0]) }));
     };
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    const newId = programs.length > 0 ? programs[programs.length - 1].id + 1 : 1; // Unique ID generation
-    const updatedPrograms = [...programs, { id: newId, ...newProgram }]; // Correctly spread newProgram
-    setPrograms(updatedPrograms);
-    localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Saving to local storage
-    handleCloseForm(); // Close the form after submission
-};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newId = programs.length > 0 ? programs[programs.length - 1].id + 1 : 1; // Unique ID generation
+        const updatedPrograms = [...programs, { id: newId, ...newProgram }]; // Correctly spread newProgram
+        setPrograms(updatedPrograms);
+        localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Saving to local storage
+        handleCloseForm(); // Close the form after submission
+    };
+
+    const handleDeleteClick = (program) => {
+        setDeletingProgram(program);
+        setIsConfirmDeleteVisible(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        // API call to delete the program from the server
+        try {
+            await fetch(`/api/programs/${deletingProgram.id}`, {
+                method: 'DELETE',
+                });
+            const updatedPrograms = programs.filter(prog => prog.id !== deletingProgram.id);
+            setPrograms(updatedPrograms);
+            localStorage.setItem('programs', JSON.stringify(updatedPrograms)); //update local storage
+        } catch (error) {
+            console.error('Error deleting program:', error);
+        } finally {
+            setIsConfirmDeleteVisible(false);
+            setDeletingProgram(null);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsConfirmDeleteVisible(false);
+        setDeletingProgram(null);
+    }
 
     return (
         <div className="programs-page">
@@ -87,6 +116,9 @@ const handleSubmit = (e) => {
                     >
                         <img src={program.image} alt={program.title} className="program-image" />
                         <div className="program-title">{program.title}</div>
+                        {isAuthenticated && (
+                            <button className="delete-button" onClick={() => handleDeleteClick(program)}>X</button>
+                        )}
                     </div>
                 ))}
             </div>
@@ -133,6 +165,15 @@ const handleSubmit = (e) => {
                             ></textarea>
                             <button type="submit">Add Program</button>
                         </form>
+                    </div>
+                </div>
+            )}
+             {isConfirmDeleteVisible && (
+                <div className="confirm-delete-overlay">
+                    <div className="confirm-delete">
+                        <h2>Are you sure you want to delete {deletingProgram.title}?</h2>
+                        <button onClick={handleConfirmDelete}>Delete</button>
+                        <button onClick={handleCancelDelete}>Cancel</button>
                     </div>
                 </div>
             )}
