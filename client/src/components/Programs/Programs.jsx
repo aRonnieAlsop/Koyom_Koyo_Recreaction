@@ -78,7 +78,8 @@ const Programs = () => {
     };
 
 
-    const handleDeleteClick = (program) => {
+    const handleDeleteClick = (event, program) => {
+        event.stopPropagation(); // to prevent the click from bubbling up the program card
         setDeletingProgram(program);
         setIsConfirmDeleteVisible(true);
     };
@@ -120,7 +121,7 @@ const Programs = () => {
                         {isAuthenticated && (
                             <button 
                                 className="delete-button" 
-                                onClick={() => handleDeleteClick(program)}
+                                onClick={(e) => handleDeleteClick(e, program)}
                             >
                                 X
                             </button>

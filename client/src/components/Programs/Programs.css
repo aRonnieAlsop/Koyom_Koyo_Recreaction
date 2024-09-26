@@ -90,9 +90,9 @@
 
 .delete-button {
     position: absolute;
-    top: 5px; /* Adjust as needed */
-    right: 5px; /* Adjust as needed */
-    background: red; /* Change to your desired color */
+    top: 5px; 
+    right: 5px; 
+    background: red; 
     color: white;
     border: none;
     border-radius: 50%;
