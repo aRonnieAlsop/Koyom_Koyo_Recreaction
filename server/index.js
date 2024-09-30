@@ -4,21 +4,27 @@ const sequelize = require('./database'); // Imported sequelize instance
 const Program = require('./models/Program');
 const multer = require('multer');
 const path = require('path');
-const { expressjwt: expressJwt } = require('express-jwt');
-const jwksRsa = require('jwks-rsa'); // jwks-rsa to retreive keys
 const cors = require('cors');
-
+const fs = require('fs'); // Don't forget to import fs
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allow all origins
+}));
+
+// Ensure the uploads directory exists
+const uploadsDir = './uploads';
+if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir);
+}
 
 // multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Directory to store uploaded images
+        cb(null, uploadsDir); // Directory to store uploaded images
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to file name
@@ -26,20 +32,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-// Middleware to check for JWT using Auth0
-const checkJwt = expressJwt({
-    secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        // Use the server-side environment variable for the Auth0 domain
-        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
-    }),
-    audience: process.env.AUTH0_AUDIENCE,
-    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-    algorithms: ['RS256']
-});
 
 // Database connection test
 sequelize.authenticate()
@@ -65,14 +57,15 @@ app.get('/api/programs', async (req, res) => {
     }
 });
 
-// Route to create a program (admin only)
-// Route to create a program (admin only)
-app.post('/api/programs', checkJwt, upload.single('image'), async (req, res) => {
+// Route to create a program (no authentication)
+app.post('/api/programs', upload.single('image'), async (req, res) => {
+    console.log('Received request to add program:', req.body); // Log the body
+    console.log('Uploaded file:', req.file); // Log the uploaded file
     try {
         const { title, description } = req.body;
         const program = await Program.create({ 
             title, 
-            image: req.file.path, // Make sure this is the correct path
+            image: req.file.path, // Ensure this is the correct path
             description 
         });
         res.json(program);
@@ -82,21 +75,20 @@ app.post('/api/programs', checkJwt, upload.single('image'), async (req, res) => 
     }
 });
 
-
 // Route to delete a program
 app.delete('/api/programs/:id', async (req, res) => {
     try {
         const { id } = req.params;
         await Program.destroy({ where: { id } });
-        res.status(204).send(); //no content to send back
+        res.status(204).send(); // no content to send back
     } catch (err) {
         console.error('Error deleting program:', err);
         res.status(500).json({ error: err.message });
     }
 });
 
-// serve static files form the uploads directory
-app.use('/uplaods', express.static('uploads'));
+// Serve static files from the uploads directory
+app.use('/uploads', express.static('uploads')); // Corrected typo from 'uplaods' to 'uploads'
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

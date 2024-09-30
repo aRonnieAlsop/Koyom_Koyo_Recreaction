@@ -74,8 +74,7 @@ const Programs = () => {
         const formData = new FormData(); // Create FormData to send the file
         formData.append('title', newProgram.title);
         formData.append('description', newProgram.description);
-        
-        // Get the file input directly by its name or ref
+    
         const fileInput = document.querySelector('input[type="file"]');
         const file = fileInput.files[0]; // Get the file from the input
     
@@ -87,7 +86,7 @@ const Programs = () => {
         }
     
         try {
-            const response = await fetch('/api/programs', {
+            const response = await fetch('http://localhost:5000/api/programs', { // Full URL
                 method: 'POST',
                 body: formData,
             });
@@ -107,7 +106,7 @@ const Programs = () => {
         } catch (error) {
             console.error('Error adding program:', error);
         }
-    };
+    };    
     
     const handleDeleteClick = (event, program) => {
         event.stopPropagation(); // to prevent the click from bubbling up the program card
