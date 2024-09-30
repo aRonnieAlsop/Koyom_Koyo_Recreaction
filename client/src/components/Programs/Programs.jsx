@@ -140,25 +140,26 @@ const Programs = () => {
         <div className="programs-page">
             <div className="info-text">Click program for more information</div>
             <div className="programs-grid">
-                {programs.map(program => (
-                    <div
-                        key={program.id}
-                        className="program-card"
-                        onClick={() => handleProgramClick(program)}
-                    >
-                        <img src={`/${program.image}`} alt={program.title} className="program-image" />
-                        <div className="program-title">{program.title}</div>
-                        {isAuthenticated && (
-                            <button 
-                                className="delete-button" 
-                                onClick={(e) => handleDeleteClick(e, program)}
-                            >
-                                X
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
+    {programs.map(program => (
+        <div
+            key={program.id}
+            className="program-card"
+            onClick={() => handleProgramClick(program)}
+        >
+            <img src={`http://localhost:5000/${program.image}`} alt={program.title} className="program-image" />
+            <div className="program-title">{program.title}</div>
+            {isAuthenticated && (
+                <button 
+                    className="delete-button" 
+                    onClick={(e) => handleDeleteClick(e, program)}
+                >
+                    X
+                </button>
+            )}
+        </div>
+    ))}
+</div>
+
             {selectedProgram && (
                 <div className="program-info-overlay">
                     <div className="program-info">

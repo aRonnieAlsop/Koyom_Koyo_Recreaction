@@ -88,7 +88,7 @@ app.delete('/api/programs/:id', async (req, res) => {
 });
 
 // Serve static files from the uploads directory
-app.use('/uploads', express.static('uploads')); // Corrected typo from 'uplaods' to 'uploads'
+app.use('/uploads', express.static('uploads')); 
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
