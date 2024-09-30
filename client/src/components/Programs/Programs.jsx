@@ -68,14 +68,38 @@ const Programs = () => {
         setNewProgram((prev) => ({ ...prev, image: URL.createObjectURL(e.target.files[0]) }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newId = programs.length > 0 ? programs[programs.length - 1].id + 1 : 1; // Unique ID generation
-        const updatedPrograms = [...programs, { id: newId, ...newProgram }]; // Correctly spread newProgram
-        setPrograms(updatedPrograms);
-        localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Saving to local storage
-        handleCloseForm(); // Close the form after submission
+    
+        const formData = new FormData(); // Create FormData to send the file
+        formData.append('title', newProgram.title);
+        formData.append('description', newProgram.description);
+        formData.append('image', newProgram.image); // The image file uploaded
+    
+        try {
+            const response = await fetch('/api/programs', {
+                method: 'POST',
+                body: formData,
+            });
+    
+            // Check if the response is okay
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const newProgramData = await response.json();
+            console.log('New program added:', newProgramData); // Debug log
+    
+            const updatedPrograms = [...programs, newProgramData]; // Append new program
+            setPrograms(updatedPrograms);
+            localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
+            handleCloseForm(); // Close the form after submission
+    
+        } catch (error) {
+            console.error('Error adding program:', error);
+        }
     };
+    
 
 
     const handleDeleteClick = (event, program) => {
@@ -116,7 +140,7 @@ const Programs = () => {
                         className="program-card"
                         onClick={() => handleProgramClick(program)}
                     >
-                        <img src={program.image} alt={program.title} className="program-image" />
+                        <img src={`/${program.image}`} alt={program.title} className="program-image" />
                         <div className="program-title">{program.title}</div>
                         {isAuthenticated && (
                             <button 

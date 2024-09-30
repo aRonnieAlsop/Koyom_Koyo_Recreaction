@@ -1,12 +1,44 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const sequelize = require('./database'); // Import your Sequelize instance
+const sequelize = require('./database'); // Imported sequelize instance
 const Program = require('./models/Program');
+const multer = require('multer');
+const path = require('path');
+const jwt = require('express-jwt'); // express-jwt for Auth0 import
+const jwksRsa = require('jwks-rsa'); // jwks-rsa to retreive keys
+
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+// multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); //directory to store uploaded images
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // append timestamp to file name
+    }
+});
+
+const upload = multer({ storage });
+
+// Middleware to check for JWT using Auth0
+const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        // Use the server-side environment variable
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+    }),
+    audience: process.env.AUTH0_AUDIENCE, // Set this in your .env if necessary
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`, // Use the server-side domain
+    algorithms: ['RS256'] // The algorithm you are using
+});
+
 
 // Database connection test
 sequelize.authenticate()
@@ -32,11 +64,15 @@ app.get('/api/programs', async (req, res) => {
     }
 });
 
-// Route to create a program
-app.post('/api/programs', async (req, res) => {
+// Route to create a program --admin only
+app.post('/api/programs', checkJwt, checkAdmin, upload.single('image'), async (req, res) => {
     try {
-        const { title, image, description } = req.body;
-        const program = await Program.create({ title, image, description });
+        const { title, description } = req.body;
+        const program = await Program.create({ 
+            title, 
+            image: req.file.path,
+            description 
+        });
         res.json(program);
     } catch (err) {
         console.error('Error creating program:', err);
@@ -55,6 +91,9 @@ app.delete('/api/programs/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+// serve static files form the uploads directory
+app.use('/uplaods', express.static('uploads'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
