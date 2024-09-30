@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const { expressjwt: expressJwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa'); // jwks-rsa to retreive keys
-const { checkAdmin } = require('./middleware');
+
 
 
 dotenv.config();
@@ -65,12 +65,13 @@ app.get('/api/programs', async (req, res) => {
 });
 
 // Route to create a program (admin only)
+// Route to create a program (admin only)
 app.post('/api/programs', checkJwt, upload.single('image'), async (req, res) => {
     try {
         const { title, description } = req.body;
         const program = await Program.create({ 
             title, 
-            image: req.file.path,
+            image: req.file.path, // Make sure this is the correct path
             description 
         });
         res.json(program);
@@ -79,20 +80,7 @@ app.post('/api/programs', checkJwt, upload.single('image'), async (req, res) => 
         res.status(500).json({ error: err.message });
     }
 });
-app.post('/api/programs', checkJwt, checkAdmin, upload.single('image'), async (req, res) => {
-    try {
-        const { title, description } = req.body;
-        const program = await Program.create({ 
-            title, 
-            image: req.file.path,
-            description 
-        });
-        res.json(program);
-    } catch (err) {
-        console.error('Error creating program:', err);
-        res.status(500).json({ error: err.message });
-    }
-});
+
 
 // Route to delete a program
 app.delete('/api/programs/:id', async (req, res) => {

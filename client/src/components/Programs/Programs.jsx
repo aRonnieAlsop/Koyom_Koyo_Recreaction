@@ -74,7 +74,17 @@ const Programs = () => {
         const formData = new FormData(); // Create FormData to send the file
         formData.append('title', newProgram.title);
         formData.append('description', newProgram.description);
-        formData.append('image', newProgram.image); // The image file uploaded
+        
+        // Get the file input directly by its name or ref
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput.files[0]; // Get the file from the input
+    
+        if (file) {
+            formData.append('image', file); // Append the file if it exists
+        } else {
+            console.error('No file selected');
+            return; // Exit early if no file is selected
+        }
     
         try {
             const response = await fetch('/api/programs', {
@@ -82,7 +92,6 @@ const Programs = () => {
                 body: formData,
             });
     
-            // Check if the response is okay
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -100,8 +109,6 @@ const Programs = () => {
         }
     };
     
-
-
     const handleDeleteClick = (event, program) => {
         event.stopPropagation(); // to prevent the click from bubbling up the program card
         setDeletingProgram(program);
