@@ -4,7 +4,7 @@ const sequelize = require('./database'); // Imported sequelize instance
 const Program = require('./models/Program');
 const multer = require('multer');
 const path = require('path');
-const jwt = require('express-jwt'); // express-jwt for Auth0 import
+const { expressjwt: expressJwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa'); // jwks-rsa to retreive keys
 
 
@@ -16,29 +16,28 @@ app.use(express.json());
 // multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); //directory to store uploaded images
+        cb(null, 'uploads/'); // Directory to store uploaded images
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // append timestamp to file name
+        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to file name
     }
 });
 
 const upload = multer({ storage });
 
 // Middleware to check for JWT using Auth0
-const checkJwt = jwt({
+const checkJwt = expressJwt({
     secret: jwksRsa.expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        // Use the server-side environment variable
+        // Use the server-side environment variable for the Auth0 domain
         jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
     }),
-    audience: process.env.AUTH0_AUDIENCE, // Set this in your .env if necessary
-    issuer: `https://${process.env.AUTH0_DOMAIN}/`, // Use the server-side domain
-    algorithms: ['RS256'] // The algorithm you are using
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+    algorithms: ['RS256']
 });
-
 
 // Database connection test
 sequelize.authenticate()
