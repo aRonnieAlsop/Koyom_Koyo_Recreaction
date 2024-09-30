@@ -6,13 +6,14 @@ const multer = require('multer');
 const path = require('path');
 const { expressjwt: expressJwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa'); // jwks-rsa to retreive keys
-
+const cors = require('cors');
 
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // multer for file uploads
 const storage = multer.diskStorage({
