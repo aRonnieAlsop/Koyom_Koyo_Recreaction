@@ -30,6 +30,7 @@ const Programs = () => {
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [currentProgramId, setCurrentProgramId] = useState(null);
     const [newProgram, setNewProgram] = useState({ title: '', image: '', description: '' });
     const [deletingProgram, setDeletingProgram] = useState(null);
     const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
@@ -56,6 +57,13 @@ const Programs = () => {
         setIsEditing(false); // not editing
         setNewProgram({ title: '', image: '', description: '' }); // reset the form
     };
+    
+    const handleEditProgramClick = (program) => {
+        setIsFormVisible(true);
+        setIsEditing(true); // editing mode
+        setCurrentProgramId(program.id); 
+        setNewProgram({ title: program.title, image: '', description: program.description }); //populates form with current values
+    }
 
     const handleCloseForm = () => {
         setIsFormVisible(false);
@@ -89,10 +97,20 @@ const Programs = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:5000/api/programs', { // Full URL
-                method: 'POST',
-                body: formData,
-            });
+            let response;
+            if (isEditing) {
+                // Update existing program
+                response = await fetch(`http://localhost:5000/api/programs/${currentProgramId}`, { // Use currentProgramId
+                    method: 'PUT', 
+                    body: formData,
+                });
+            } else {
+                // Create new program
+                response = await fetch('http://localhost:5000/api/programs', { // Full URL
+                    method: 'POST',
+                    body: formData,
+                });
+            }
     
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -101,7 +119,11 @@ const Programs = () => {
             const newProgramData = await response.json();
             console.log('New program added:', newProgramData); // Debug log
     
-            const updatedPrograms = [...programs, newProgramData]; // Append new program
+            // Handle the updated or newly created program
+            const updatedPrograms = isEditing
+            ? programs.map(prog => (prog.id === newProgramData.id ? newProgramData : prog)) // Update the edited program
+            : [...programs, newProgramData]; // Append new program
+
             setPrograms(updatedPrograms);
             localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
             handleCloseForm(); // Close the form after submission
@@ -181,7 +203,7 @@ const Programs = () => {
                 <div className="program-form-overlay">
                     <div className="program-form">
                         <button className="close-button" onClick={handleCloseForm}>X</button>
-                        <h2>Add New Program</h2>
+                        <h2>{isEditing ? 'Edit Program' : 'Add New Program'}</h2>
                         <form onSubmit={handleSubmit}>
                             <input
                                 type="text"
@@ -204,7 +226,7 @@ const Programs = () => {
                                 onChange={handleInputChange}
                                 required
                             ></textarea>
-                            <button type="submit">Add Program</button>
+                            <button type="submit">{isEditing ? 'Update Program' : 'Add Program'}</button>
                         </form>
                     </div>
                 </div>

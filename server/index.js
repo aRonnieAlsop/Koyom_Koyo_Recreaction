@@ -74,6 +74,30 @@ app.post('/api/programs', upload.single('image'), async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// Route to update a program
+app.put('/api/programs/:id', upload.single('image'), async (req, res) => {
+    const { id } = req.params;
+    try {
+        const program = await Program.findByPk(id);
+        if (!program) {
+            return res.status(404).json({ error: 'Program not found' });
+        }
+
+        const { title, description } = req.body;
+        const updatedProgramData = { title, description };
+
+        // If a new image is uploaded, update the image path
+        if (req.file) {
+            updatedProgramData.image = req.file.path;
+        }
+
+        await program.update(updatedProgramData);
+        res.json(program); // Return the updated program
+    } catch (err) {
+        console.error('Error updating program:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 // Route to delete a program
 app.delete('/api/programs/:id', async (req, res) => {
