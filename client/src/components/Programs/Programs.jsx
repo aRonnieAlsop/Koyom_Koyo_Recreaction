@@ -29,6 +29,7 @@ const Programs = () => {
     const [programs, setPrograms] = useState([]);
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [newProgram, setNewProgram] = useState({ title: '', image: '', description: '' });
     const [deletingProgram, setDeletingProgram] = useState(null);
     const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
@@ -52,6 +53,8 @@ const Programs = () => {
 
     const handleAddProgramClick = () => {
         setIsFormVisible(true);
+        setIsEditing(false); // not editing
+        setNewProgram({ title: '', image: '', description: '' }); // reset the form
     };
 
     const handleCloseForm = () => {
