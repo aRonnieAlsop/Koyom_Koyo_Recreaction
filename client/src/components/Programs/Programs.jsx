@@ -130,10 +130,13 @@ const Programs = () => {
 
             setPrograms(updatedPrograms);
             localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
+
             handleCloseForm(); // Close the form after submission
 
-            //reset the form after submission of edit?
+            // clear form after submission
             setNewProgram({ title: '', image: '', description: '' });
+            setIsEditing(false); // reset editing state
+            setCurrentProgramId(null); // reset current program ID
     
         } catch (error) {
             console.error('Error adding program:', error);
