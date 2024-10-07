@@ -70,6 +70,8 @@ const Programs = () => {
     const handleCloseForm = () => {
         setIsFormVisible(false);
         setNewProgram({ title: '', image: '', description: '' }); // Reset the form
+        setIsEditing(false); // reset editing state
+        setCurrentProgramId(null); // reset current program ID
     };
 
     const handleInputChange = (e) => {
@@ -129,6 +131,9 @@ const Programs = () => {
             setPrograms(updatedPrograms);
             localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
             handleCloseForm(); // Close the form after submission
+
+            //reset the form after submission of edit?
+            setNewProgram({ title: '', image: '', description: '' });
     
         } catch (error) {
             console.error('Error adding program:', error);
@@ -142,7 +147,7 @@ const Programs = () => {
     };
 
     const handleConfirmDelete = async () => {
-        // Call your API to delete the program from the server
+        // call API to delete the program from the server
         try {
             await fetch(`/api/programs/${deletingProgram.id}`, {
                 method: 'DELETE',
