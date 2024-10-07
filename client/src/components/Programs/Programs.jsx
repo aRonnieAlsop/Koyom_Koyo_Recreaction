@@ -46,6 +46,8 @@ const Programs = () => {
 
     const handleProgramClick = (program) => {
         setSelectedProgram(program);
+        setIsEditing(false); //Reset editing state on program click
+        setCurrentProgramId(null); // Reset current program ID
     };
 
     const handleClose = () => {
@@ -58,11 +60,11 @@ const Programs = () => {
         setNewProgram({ title: '', image: '', description: '' }); // reset the form
     };
     
-    const handleEditProgramClick = (program) => {
-        setIsFormVisible(true);
-        setIsEditing(true); // editing mode
-        setCurrentProgramId(program.id); 
-        setNewProgram({ title: program.title, image: '', description: program.description }); //populates form with current values
+    const handleEditClick = () => {
+        setNewProgram(selectedProgram); // populate the form with the selected program's details
+        setIsEditing(true); // Set editing mode
+        setIsFormVisible(true); // show the form
+        setCurrentProgramId(selectedProgram.id); //set current program ID
     }
 
     const handleCloseForm = () => {
@@ -191,6 +193,11 @@ const Programs = () => {
                         <button className="close-button" onClick={handleClose}>X</button>
                         <h2>{selectedProgram.title}</h2>
                         <p>{selectedProgram.description}</p>
+                        {isAuthenticated && ( // show the edit button if authenticated
+                            <button className="edit-button" onClick={handleEditClick}>
+                                Edit
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
