@@ -108,6 +108,7 @@ const Programs = () => {
                     method: 'PUT', 
                     body: formData,
                 });
+                setSelectedProgram(newProgramData);
             } else {
                 // Create new program
                 response = await fetch('http://localhost:5000/api/programs', { // Full URL
