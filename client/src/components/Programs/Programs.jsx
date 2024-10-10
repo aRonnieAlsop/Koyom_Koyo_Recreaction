@@ -72,6 +72,7 @@ const Programs = () => {
         setNewProgram({ title: '', image: '', description: '' }); // Reset the form
         setIsEditing(false); // reset editing state
         setCurrentProgramId(null); // reset current program ID
+        setSelectedProgram(null); // ensure selected program is cleared
     };
 
     const handleInputChange = (e) => {
@@ -86,7 +87,7 @@ const Programs = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        const formData = new FormData(); // Create FormData to send the file
+        const formData = new FormData(); // FormData to send the file
         formData.append('title', newProgram.title);
         formData.append('description', newProgram.description);
     
@@ -108,10 +109,9 @@ const Programs = () => {
                     method: 'PUT', 
                     body: formData,
                 });
-                setSelectedProgram(newProgramData);
             } else {
                 // Create new program
-                response = await fetch('http://localhost:5000/api/programs', { // Full URL
+                response = await fetch('http://localhost:5000/api/programs', { 
                     method: 'POST',
                     body: formData,
                 });
@@ -122,9 +122,9 @@ const Programs = () => {
             }
     
             const newProgramData = await response.json();
-            console.log('New program added:', newProgramData); // Debug log
+            console.log('Program updated or added:', newProgramData); // Debug log
     
-            // Handle the updated or newly created program
+            // Handles the updated or newly created program:
             const updatedPrograms = isEditing
             ? programs.map(prog => (prog.id === newProgramData.id ? newProgramData : prog)) // Update the edited program
             : [...programs, newProgramData]; // Append new program
@@ -133,16 +133,11 @@ const Programs = () => {
             localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
 
             handleCloseForm(); // Close the form after submission
-
-            // clear form after submission
-            setNewProgram({ title: '', image: '', description: '' });
-            setIsEditing(false); // reset editing state
-            setCurrentProgramId(null); // reset current program ID
     
         } catch (error) {
-            console.error('Error adding program:', error);
+            console.error('Error adding or updating program:', error);
         }
-    };    
+    };   
     
     const handleDeleteClick = (event, program) => {
         event.stopPropagation(); // to prevent the click from bubbling up the program card
