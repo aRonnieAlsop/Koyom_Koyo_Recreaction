@@ -173,7 +173,7 @@ const Programs = () => {
             <div className="programs-grid">
     {programs.map(program => (
         <div
-            key={program.id}
+            key={`${program.id}-${program.title}`} 
             className="program-card"
             onClick={() => handleProgramClick(program)}
         >

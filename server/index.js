@@ -50,6 +50,7 @@ app.get('/', (req, res) => res.send('API is running'));
 app.get('/api/programs', async (req, res) => {
     try {
         const programs = await Program.findAll();
+        console.log('Programs in database:', programs); 
         res.json(programs);
     } catch (err) {
         console.error('Error fetching programs:', err);
@@ -74,12 +75,16 @@ app.post('/api/programs', upload.single('image'), async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
 // Route to update a program
 app.put('/api/programs/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
+    console.log(`Updating program with ID: ${id}`); // Log the ID being used debugger
     try {
         const program = await Program.findByPk(id);
         if (!program) {
+            console.log('Program not found'); // debugger if the program doesn't exist
             return res.status(404).json({ error: 'Program not found' });
         }
 
