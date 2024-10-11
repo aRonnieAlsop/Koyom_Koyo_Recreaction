@@ -133,6 +133,7 @@ const Programs = () => {
             localStorage.setItem('programs', JSON.stringify(updatedPrograms)); // Update local storage
 
             handleCloseForm(); // Close the form after submission
+            setNewProgram({ title: '', image: '', description: '' }); //clear form
     
         } catch (error) {
             console.error('Error adding or updating program:', error);
