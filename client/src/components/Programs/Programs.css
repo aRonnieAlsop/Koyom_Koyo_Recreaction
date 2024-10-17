@@ -146,3 +146,18 @@
     min-height: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.program-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.program-form input,
+.program-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
