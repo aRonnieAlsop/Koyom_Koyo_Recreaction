@@ -14,15 +14,15 @@ import ProgramCard from './ProgramCard';
 // import roboticsImage from './../../assets/ProgramImages/Robots_Stock_Img.jpg';
 
 const initialPrograms = [
-    { id: 1, title: 'Swim Lessons', image: poolImage, description: 'Details about Swim Lessons' },
-    { id: 2, title: 'Soccer Camp', image: soccerImage, description: 'Details about Soccer Camp' },
-    { id: 3, title: 'Tennis Lessons', image: tennisImage, description: 'Details about Tennis Lessons' },
-    { id: 4, title: 'Lego Fair', image: legoImage, description: 'Details about Lego Fair' },
-    { id: 5, title: 'Pickleball Tournament', image: pickleballImage, description: 'Details about Pickleball Tournament' },
-    { id: 6, title: 'Art in the Park', image: artImage, description: 'Details about Art in the Park' },
-    { id: 7, title: 'Men\'s Softball', image: softballMenImage, description: 'Details about Men\'s Softball' },
-    { id: 8, title: 'Women\'s Softball', image: softballWomenImage, description: 'Details about Women\'s Softball' },
-    { id: 9, title: 'Robotics Workshop', image: roboticsImage, description: 'Details about Robotics Workshop' },
+    // { id: 1, title: 'Swim Lessons', image: poolImage, description: 'Details about Swim Lessons' },
+    // { id: 2, title: 'Soccer Camp', image: soccerImage, description: 'Details about Soccer Camp' },
+    // { id: 3, title: 'Tennis Lessons', image: tennisImage, description: 'Details about Tennis Lessons' },
+    // { id: 4, title: 'Lego Fair', image: legoImage, description: 'Details about Lego Fair' },
+    // { id: 5, title: 'Pickleball Tournament', image: pickleballImage, description: 'Details about Pickleball Tournament' },
+    // { id: 6, title: 'Art in the Park', image: artImage, description: 'Details about Art in the Park' },
+    // { id: 7, title: 'Men\'s Softball', image: softballMenImage, description: 'Details about Men\'s Softball' },
+    // { id: 8, title: 'Women\'s Softball', image: softballWomenImage, description: 'Details about Women\'s Softball' },
+    // { id: 9, title: 'Robotics Workshop', image: roboticsImage, description: 'Details about Robotics Workshop' },
 ];
 
 const Programs = () => {
