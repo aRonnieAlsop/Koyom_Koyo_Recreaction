@@ -1,6 +1,178 @@
+.programs-page {
+    text-align: center;
+}
+
+.info-text {
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 20px;
+}
+
 .programs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 0 80px;
+}
+
+.program-card {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.3 ease;
+    height: 250px;
+}
+
+.program-card:hover {
+    transform: scale(1.05);
+}
+
+.program-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.program-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: white;
+    color: black;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.program-info-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.program-info {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .add-program-button {
+    margin: 20px; 
+    padding: 10px 15px;
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button {
+    position: absolute;
+    top: 5px; 
+    right: 5px; 
+    background: red; 
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.delete-button:hover {
+    background: darkred; /* Darker color on hover */
+}
+
+.confirm-delete-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirm-delete {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.program-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.program-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 90%;
+    height: auto;
+    min-height: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.program-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.program-form input,
+.program-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.program-form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; 
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.program-form button[type="submit"]:hover {
+    background-color: #0056b3;
 }
