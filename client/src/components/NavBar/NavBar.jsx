@@ -12,10 +12,10 @@ const NavBar = () => {
     return (
       <nav className="navbar">
         <div className="navbar-left">
-        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.facebook.com/people/Indian-Valley-Recreation-Parks-District/100064329743952/" target="_blank" rel="noopener noreferrer">
             <img src={faceBookIcon} alt="Facebook" className="social-icon"/>
           </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/plumas_county/" target="_blank" rel="noopener noreferrer">
             <img src={instagramIcon} alt="Instagram" className="social-icon"/>
           </a>
         </div>
