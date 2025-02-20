@@ -3,11 +3,13 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Schedule.css';
+import ProgramSignup from '../ProgramSignup/ProgramSignup'; // Import the form component
 
 const localizer = momentLocalizer(moment);
 
 const Schedule = () => {
     const [events, setEvents] = useState([]);
+    const [selectedProgram, setSelectedProgram] = useState(null); // Store selected event
 
     useEffect(() => {
         fetch('http://localhost:5000/programs')
@@ -26,7 +28,7 @@ const Schedule = () => {
             const startDateTime = moment(`${program.start_date}T${program.start_time}`).toDate();
             const endDateTime = moment(`${program.start_date}T${program.end_time}`).toDate();
 
-            // add the first occurrence:
+            // Add the first occurrence
             events.push({
                 id: program.id,
                 title: program.name,
@@ -36,7 +38,7 @@ const Schedule = () => {
                 description: program.description,
             });
 
-            // handles recurring events:
+            // Handle recurring events
             if (program.repeats && program.repeat_type === "weekly") {
                 for (let i = 1; i <= program.repeat_count; i++) {
                     const recurringStart = moment(startDateTime).add(i, 'weeks').toDate();
@@ -68,7 +70,7 @@ const Schedule = () => {
     };
 
     const handleEventClick = (event) => {
-        alert(`Event: ${event.title}\nTime: ${moment(event.start).format('hh:mm A')} - ${moment(event.end).format('hh:mm A')}\nLocation: ${event.location}\nDescription: ${event.description}`);
+        setSelectedProgram(event);
     };
 
     return (
@@ -84,6 +86,16 @@ const Schedule = () => {
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleEventClick}
             />
+
+            {selectedProgram && (
+                <div className="event-details">
+                    <h3>{selectedProgram.title}</h3>
+                    <p><strong>Time:</strong> {moment(selectedProgram.start).format('hh:mm A')} - {moment(selectedProgram.end).format('hh:mm A')}</p>
+                    <p><strong>Location:</strong> {selectedProgram.location}</p>
+                    <p><strong>Description:</strong> {selectedProgram.description}</p>
+                    <ProgramSignup programId={selectedProgram.id} />
+                </div>
+            )}
         </div>
     );
 };
